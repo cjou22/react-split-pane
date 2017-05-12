@@ -662,9 +662,15 @@ var SplitPane = function (_React$Component) {
         _this.onTouchMove = _this.onTouchMove.bind(_this);
         _this.onMouseUp = _this.onMouseUp.bind(_this);
 
-        _this.state = {
+        _this.currentState = {
             active: false,
-            resized: false
+            resized: false,
+            size: 0
+        };
+        console.log('Hello JJ');
+        _this.state = {
+            //active: false,
+            //resized: false,
         };
         return _this;
     }
@@ -710,9 +716,11 @@ var SplitPane = function (_React$Component) {
                     onDragStarted();
                 }
                 this.setState({
-                    active: true,
-                    position: position
+                    //    active: true,
+                    //  position,
                 });
+                this.currentState.active = true;
+                this.currentState.position = position;
             }
         }
     }, {
@@ -730,9 +738,12 @@ var SplitPane = function (_React$Component) {
                 minSize = _props2.minSize,
                 onChange = _props2.onChange,
                 split = _props2.split;
-            var _state = this.state,
-                active = _state.active,
-                position = _state.position;
+            // const { active, posiiton } = this.state;
+
+            var _currentState = this.currentState,
+                active = _currentState.active,
+                position = _currentState.position,
+                size = _currentState.size;
 
             if (allowResize && active) {
                 unFocus(document, window);
@@ -742,10 +753,10 @@ var SplitPane = function (_React$Component) {
                     var node = _reactDom2.default.findDOMNode(ref);
 
                     if (node.getBoundingClientRect) {
-                        var width = node.getBoundingClientRect().width;
-                        var height = node.getBoundingClientRect().height;
+                        // const width = node.getBoundingClientRect().width;
+                        // const height = node.getBoundingClientRect().height;
                         var current = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
-                        var size = split === 'vertical' ? width : height;
+                        // const size = split === 'vertical' ? width : height;
                         var newPosition = isPrimaryFirst ? position - current : current - position;
 
                         var newMaxSize = maxSize;
@@ -766,14 +777,29 @@ var SplitPane = function (_React$Component) {
                             newSize = newMaxSize;
                         } else {
                             this.setState({
-                                position: current,
-                                resized: true
+                                //  position: current,
+                                //    resized: true,
                             });
+                            this.currentState.resized = true;
+                            this.currentState.position = current;
                         }
 
                         if (onChange) onChange(newSize);
-                        this.setState({ draggedSize: newSize });
+                        //this.setState({ draggedSize: newSize });
+                        this.currentState.draggedSize = newSize;
+                        this.currentState.size = newSize;
                         ref.setState({ size: newSize });
+
+                        console.log({
+                            allowResize: allowResize,
+                            active: active,
+                            //height: height,
+                            current: current,
+                            size: size,
+                            position: position,
+                            newPosition: newPosition,
+                            newSize: newSize
+                        });
                     }
                 }
             }
@@ -784,15 +810,18 @@ var SplitPane = function (_React$Component) {
             var _props3 = this.props,
                 allowResize = _props3.allowResize,
                 onDragFinished = _props3.onDragFinished;
-            var _state2 = this.state,
-                active = _state2.active,
-                draggedSize = _state2.draggedSize;
+            // const { active, draggedSize } = this.state;
+
+            var _currentState2 = this.currentState,
+                active = _currentState2.active,
+                draggedSize = _currentState2.draggedSize;
 
             if (allowResize && active) {
                 if (typeof onDragFinished === 'function') {
                     onDragFinished(draggedSize);
                 }
-                this.setState({ active: false });
+                //this.setState({ active: false });
+                this.currentState.active = false;
             }
         }
     }, {
@@ -803,14 +832,18 @@ var SplitPane = function (_React$Component) {
             var ref = primary === 'first' ? this.pane1 : this.pane2;
             var newSize = void 0;
             if (ref) {
-                newSize = props.size || state && state.draggedSize || props.defaultSize || props.minSize;
+                newSize = props.size || state && this.currentState.draggedSize || props.defaultSize || props.minSize;
+
                 ref.setState({
                     size: newSize
                 });
-                if (props.size !== state.draggedSize) {
-                    this.setState({
-                        draggedSize: newSize
-                    });
+
+                //if (props.size !== state.draggedSize) {
+                if (props.size !== this.currentState.draggedSize) {
+                    // this.setState({
+                    //     draggedSize: newSize,
+                    // });
+                    this.currentState.draggedSize = newSize;
                 }
             }
         }
@@ -3220,7 +3253,7 @@ var _getPrefixedValue2 = _interopRequireDefault(_getPrefixedValue);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function position(property, value, _ref) {
+function position(property, value, style, _ref) {
   var browserName = _ref.browserName,
       cssPrefix = _ref.cssPrefix,
       keepUnprefixed = _ref.keepUnprefixed;

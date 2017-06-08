@@ -76,8 +76,8 @@ class SplitPane extends React.Component {
                 onDragStarted();
             }
             this.setState({
-            //    active: true,
-            //  position,
+                // active: true,
+                // position,
             });
             this.currentState.active = true;
             this.currentState.position = position;
@@ -106,10 +106,10 @@ class SplitPane extends React.Component {
                 const node = ReactDOM.findDOMNode(ref);
 
                 if (node.getBoundingClientRect) {
-                    //const width = node.getBoundingClientRect().width;
-                    //const height = node.getBoundingClientRect().height;
+                    const width = node.getBoundingClientRect().width;
+                    const height = node.getBoundingClientRect().height;
                     const current = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
-                    // const size = split === 'vertical' ? width : height;
+                    const size = split === 'vertical' ? width : height;
                     this.currentState.size = ( !size ) ? defaultSize || minSize : size;
                     const newPosition = isPrimaryFirst ? (position - current) : (current - position);
 

@@ -168,9 +168,8 @@ class SplitPane extends React.Component {
                 onDragFinished(draggedSize);
             }
             // this.setState({ active: false });
-            this.currentState.active = false;
-
             this.onMouseMove(event);
+            this.currentState.active = false;
         }
     }
 

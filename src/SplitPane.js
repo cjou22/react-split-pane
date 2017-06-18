@@ -159,7 +159,7 @@ class SplitPane extends React.Component {
         }
     }
 
-    onMouseUp() {
+    onMouseUp(event) {
         const { allowResize, onDragFinished } = this.props;
         // const { active, draggedSize } = this.state;
         const { active, draggedSize } = this.currentState;
@@ -170,16 +170,7 @@ class SplitPane extends React.Component {
             //this.setState({ active: false });
             this.currentState.active = false;
 
-            const { primary } = this.props;
-            const ref = primary === 'first' ? this.pane1 : this.pane2;
-            let newSize;
-            if (ref) {
-                newSize = this.currentState.draggedSize || props.defaultSize || props.minSize;
-                // console.log('newSize:', newSize);
-                ref.setState({
-                    size: newSize,
-                });
-            }
+            onMouseMove(event);
         }
     }
 

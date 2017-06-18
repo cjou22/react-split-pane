@@ -107,9 +107,15 @@ class SplitPane extends React.Component {
 
                 if (node.getBoundingClientRect) {
 
+                    let newPaneSize = ref.state.size;
+                    // check for ref.state.size if it's set as proportion % or pixel
+                    if (ref.state.size.indexOf('%') > 0) {
+                        newPaneSize = undefined;
+                    }
+
                     // Use the pane state size instead of grabbing ones from window
-                    const width = Number.isNaN(ref.state.size) ? node.getBoundingClientRect().width : ref.state.size;
-                    const height = Number.isNaN(ref.state.size) ? node.getBoundingClientRect().height : ref.state.size;
+                    const width = newPaneSize || node.getBoundingClientRect().width;
+                    const height = newPaneSize || node.getBoundingClientRect().height;
 
                     const current = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
                     const size = split === 'vertical' ? width : height;

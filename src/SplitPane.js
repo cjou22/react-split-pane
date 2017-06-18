@@ -189,7 +189,7 @@ class SplitPane extends React.Component {
         let newSize;
         if (ref) {
             newSize = props.size || (state && this.currentState.draggedSize) || props.defaultSize || props.minSize;
-            console.log('newSize:', newSize);
+            // console.log('newSize:', newSize);
             ref.setState({
                 size: newSize,
             });

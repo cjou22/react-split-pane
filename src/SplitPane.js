@@ -106,8 +106,11 @@ class SplitPane extends React.Component {
                 const node = ReactDOM.findDOMNode(ref);
 
                 if (node.getBoundingClientRect) {
-                    const width = node.getBoundingClientRect().width;
-                    const height = node.getBoundingClientRect().height;
+
+                    // Use the pane state size instead of grabbing ones from window
+                    const width = Number.isNan(ref.state.size) ? node.getBoundingClientRect().width : ref.state.size;
+                    const height = Number.isNan(ref.state.size) ? node.getBoundingClientRect().height : ref.state.size;
+
                     const current = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
                     const size = split === 'vertical' ? width : height;
                     this.currentState.size = (!size) ? defaultSize || minSize : size;
@@ -143,23 +146,12 @@ class SplitPane extends React.Component {
                     this.currentState.draggedSize = newSize;
                     this.currentState.size = newSize;
                     ref.setState({ size: newSize });
-
-                    // console.log({
-                    //     allowResize: allowResize,
-                    //     active: active,
-                    //     //height: height,
-                    //     current: current,
-                    //     size: size,
-                    //     position: position,
-                    //     newPosition: newPosition,
-                    //     newSize: newSize
-                    // });
                 }
             }
         }
     }
 
-    onMouseUp(event) {
+    onMouseUp() {
         const { allowResize, onDragFinished } = this.props;
         // const { active, draggedSize } = this.state;
         const { active, draggedSize } = this.currentState;
@@ -168,7 +160,6 @@ class SplitPane extends React.Component {
                 onDragFinished(draggedSize);
             }
             // this.setState({ active: false });
-            this.onMouseMove(event);
             this.currentState.active = false;
         }
     }

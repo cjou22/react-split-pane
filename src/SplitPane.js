@@ -109,7 +109,7 @@ class SplitPane extends React.Component {
 
                     let newPaneSize = ref.state.size;
                     // check for ref.state.size if it's set as proportion % or pixel
-                    if (ref.state.size.indexOf('%') > 0) {
+                    if (typeof ref.state.size === 'string') {
                         newPaneSize = undefined;
                     }
 

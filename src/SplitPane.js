@@ -33,12 +33,12 @@ class SplitPane extends React.Component {
         this.currentState = {
             active: false,
             resized: false,
-            size: 0
+            size: 0,
         };
-        this.state = {
-            //active: false,
-            //resized: false,
-        };
+        // this.state = {
+        //     active: false,
+        //     resized: false,
+        // };
     }
 
     componentDidMount() {
@@ -96,7 +96,7 @@ class SplitPane extends React.Component {
     onTouchMove(event) {
         const { allowResize, maxSize, minSize, onChange, split, defaultSize } = this.props;
         // const { active, posiiton } = this.state;
-        const { active, position, size } = this.currentState;
+        const { active, position } = this.currentState;
 
         if (allowResize && active) {
             unFocus(document, window);
@@ -110,7 +110,7 @@ class SplitPane extends React.Component {
                     const height = node.getBoundingClientRect().height;
                     const current = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
                     const size = split === 'vertical' ? width : height;
-                    this.currentState.size = ( !size ) ? defaultSize || minSize : size;
+                    this.currentState.size = (!size) ? defaultSize || minSize : size;
                     const newPosition = isPrimaryFirst ? (position - current) : (current - position);
 
                     let newMaxSize = maxSize;
@@ -139,7 +139,7 @@ class SplitPane extends React.Component {
                     }
 
                     if (onChange) onChange(newSize);
-                    //this.setState({ draggedSize: newSize });
+                    // this.setState({ draggedSize: newSize });
                     this.currentState.draggedSize = newSize;
                     this.currentState.size = newSize;
                     ref.setState({ size: newSize });
@@ -167,10 +167,10 @@ class SplitPane extends React.Component {
             if (typeof onDragFinished === 'function') {
                 onDragFinished(draggedSize);
             }
-            //this.setState({ active: false });
+            // this.setState({ active: false });
             this.currentState.active = false;
 
-            onMouseMove(event);
+            this.onMouseMove(event);
         }
     }
 
@@ -185,7 +185,7 @@ class SplitPane extends React.Component {
                 size: newSize,
             });
 
-            //if (props.size !== state.draggedSize) {
+            // if (props.size !== state.draggedSize) {
             if (props.size !== this.currentState.draggedSize) {
                 // this.setState({
                 //     draggedSize: newSize,
